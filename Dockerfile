@@ -8,7 +8,7 @@ FROM ubuntu:20.04 as system
 
 # Avoid prompts for time zone
 ENV DEBIAN_FRONTEND noninteractive
-ENV TZ=Europe/Paris
+ENV TZ=America/Los_Angeles
 # Fix issue with libGL on Windows
 ENV LIBGL_ALWAYS_INDIRECT=1
 
@@ -63,12 +63,6 @@ RUN wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz \
 #     && rm -rf /var/lib/apt/lists/* \
 #     && mkdir /usr/local/ffmpeg \
 #     && ln -s /usr/bin/ffmpeg /usr/local/ffmpeg/ffmpeg
-
-# NextCloud
-RUN apt-get update && apt-get install -y nextcloud-desktop
-
-# Firefox
-RUN apt-get update && apt-get install -y firefox libpci3
 
 # Killsession app
 COPY killsession/ /tmp/killsession
