@@ -13,7 +13,7 @@ ENV TZ=America/Los_Angeles
 ENV LIBGL_ALWAYS_INDIRECT=1
 
 # built-in packages
-RUN apt-get update && apt-get upgrade -y && apt-get install apt-utils -y \
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install apt-utils -y \
     && apt-get install -y --no-install-recommends software-properties-common curl apache2-utils \
     && apt-get update \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
@@ -25,18 +25,11 @@ RUN apt-get update && apt-get upgrade -y && apt-get install apt-utils -y \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
         xvfb x11vnc \
-        vim-tiny ttf-ubuntu-font-family ttf-wqy-zenhei
-
-# Alternative VNC server
-# RUN apt-get install -y tigervnc-scraping-server
-
-# RUN apt-get update \
-#     && apt-get install -y gpg-agent \
-#     && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-#     && (dpkg -i ./google-chrome-stable_current_amd64.deb || apt-get install -fy) \
-#     && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add \
-#     && rm google-chrome-stable_current_amd64.deb \
-#     && rm -rf /var/lib/apt/lists/*
+        vim-tiny ttf-ubuntu-font-family ttf-wqy-zenhei \
+	gpg-agent \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \ 
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+    && apt-get update && apt-get -y install google-chrome-stable
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
